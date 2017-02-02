@@ -49,7 +49,7 @@ router.get('/searchMovie', function(req, res, next){
 router.post('/searchMovie', function(req, res, next){
 	var searchString = encodeURI(req.body.movieSearch);
 	// this route will only apply to a post request
-	// res.json(req.body);//Testing route. we have req.body.movieSearch and req.body.actorSearch. We named the input type in search.ejs.
+	// res.json(req.body);//Testing route. we now have req.body.movieSearch and req.body.actorSearch. We named the input type in search.ejs.
 	// test in localhost: 3000/search
 	//this is the response we get from the user.
 	var queryUrl = config.baseUrl + 'search/movie?' + config.api_key + '&query=' + searchString;
@@ -72,3 +72,5 @@ router.post('/searchMovie', function(req, res, next){
 module.exports = router;
 	
 
+// form with name var -->
+// post which has req.body.name --> res.render
