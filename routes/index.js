@@ -1,15 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var config = require('../config/config.js');
 
-var config = {
-    baseUrl: 'http://api.themoviedb.org/3/',
-    imageBase: 'http://image.tmdb.org/t/p/w300',
-    imageBaseFull: 'http://image.tmdb.org/t/p/original',
-    nowPlayingEP: 'movie/now_playing?',
-    api_key: '&api_key=fec8b5ab27b292a68294261bb21b04a5',
-    bpMovies11: 'discover/movie?with_people=287&primary_release_year=2011&sort_by=vote_average.desc'
-};
+
+// ways to pull stuff out:
+// req.body
+// req.params
+// req.query
+
 
 router.get('/', function(req, res, next) {
     request.get(config.baseUrl + config.nowPlayingEP + config.api_key, (err, response, movieData)=>{
@@ -35,6 +34,35 @@ router.get('/bradpitt', function(req, res, next) {
            imageUrl: config.imageBase
        })
    })
+});
+
+router.get('/movie/:movieId', (req,res,next)=>{
+	var queryUrl = config.baseUrl + 'search/movie?' + config.api_key + '&query=' + searchString;
+	// currentMovieId = req.params.movieId
+	res.send(config.baseUrl +'/movie/' + currentMovieId + '&api_key=fec8b5ab27b292a68294261bb21b04a5');
+	request.get(url, (error, response, movieData)=>{
+		res.render('singleMovie', {movieData: movieData})
+	});
+});
+
+router.get('/search/:searchString', (req, res, next)=>{
+	//localhost:3000/search/yourWords
+	// res.send(req.params.searchString);
+	//now,we're not extracting it from the body. we're extracting the search from the query string
+	var searchString = req.params.searchString;
+	var queryUrl = config.baseUrl + 'search/movie?' + config.api_key + '&query=' + searchString;
+	// res.send(queryUrl);
+	request.get(queryUrl, (error, response, searchData)=>{
+		//we typed out "error" and "response" here so that it does not overwrite req and res from router.post.
+		//this is the response we got from the movie api.
+		//need json.parse because we're getting a string
+		searchData = JSON.parse(searchData);
+		res.render('index', {
+			movieData: searchData,
+			imageUrl: config.imageBase,
+			searchString: searchString
+		})
+	})
 });
 
 router.get('/searchMovie', function(req, res, next){
@@ -71,6 +99,3 @@ router.post('/searchMovie', function(req, res, next){
 
 module.exports = router;
 	
-
-// form with name var -->
-// post which has req.body.name --> res.render

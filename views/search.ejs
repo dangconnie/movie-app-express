@@ -37,7 +37,7 @@
 
 <!-- Action determines where form will be submitted to. When this form is submitted, it will go to localhost:3000/searchMovie. -->
 
-<!-- "get" method passes search into query string. it also takes the name of the input box and sets it equal to what was typed. -->
+<!-- "get" method passes search into query string. it also takes the name of the input box and sets it equal to what was typed. It will put everything typed (including sensitive info) into the query string, which is unsafe and looks bad. -->
 
 <!-- Post is usually the preferred method b/c it looks better(shorter string) and you don't want sensitive info passed into a query string. This is unsafe!!! (username, pw, apikey, etc) -->
 
