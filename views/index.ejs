@@ -10,7 +10,7 @@
 </head>
 	
 <body>
-
+<%- include layout.ejs %>
 	<div class="container">
 		<% movieData.results.map((movie, index) =>{ %>
 			<div class="col-sm-4">
@@ -18,7 +18,6 @@
 				<img src= "<%= imageUrl %><%= movie.poster_path %>">
 			</div>
 		<% }); %>
-
 	</div>
 	
 </body>
